@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 300px;
+            height: 500px;
+            border-width: 20px 10px 40px;
+            border-style: solid;
+            border-color: #000;
+            border-radius:10px ;
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            transition: 1s;
+            }
+        .ul{
+            list-style: none;
+            width:250px;
+            margin: 10px auto;
+            background-color:rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px;
+          }
+          .ptitle{
+              font: 20px/40px "微软雅黑";
+          }
+          li{
+              padding: 2px;
+              text-indent: 10px;
+          }
+          li:hover{
+              background-color: pink;
+          }
+          .me{
+              background-color: aquamarine;
+          }
+          .red{
+              background: red;
+          }
+          /* .open{
+              display: block;
+          } */
+
+    </style>
+    <script src="./src/vue.js"></script>
+</head>
+<body>
+    <div class="box">
+        <div id="app">
+        <div class="ul" v-for="item,index in qq">
+            <li class="ptitle"
+                @click="change(item,item.open)"
+            >{{item.title}}</li>
+            <ul :style="isopen(item.open)">
+                <li v-for="i,idex in item.cons"
+                >{{i}}</li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    
+    <script>
+        document.onselectstart= function(){
+            return false;
+        }
+        let datalist=[
+                    {
+                        // open:true,手动加开关 
+                        title:"我的好友",
+                        cons:["毛豆","狐狸","馒头","粥粥","皮蛋"]
+                    },
+                    {
+                        // open:true,
+                        title:"我的敌人",
+                        cons:["狗蛋","狗剩","傻蛋"]
+                    },
+                    {
+                        // open:true,
+                        title:"黑名单",
+                        cons:["隔壁家的孩子","别人家的喵","老王","比我优秀的"]
+                    }
+            ];
+            //自动给每一项加open开关
+                datalist.forEach((item)=>{item.open=true})
+
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                currentcard:0,
+                currentperson:null,
+                qq:datalist
+                
+            },
+            methods:{
+                change(item){
+                    // item.open=!item.open;(如果多个展开，只要这一句，不要下面的if语句)
+                    //下面是单个展开的
+                    if(item.open){
+                       item.open=false; 
+                    }else{
+                        datalist.forEach((i)=>{i.open=false})
+                        item.open=true; 
+                    }
+                    
+                },
+                isopen(open){
+                    return {display:open?"block":"none"}
+                }
+            }
+        })
+    </script>
+</body>
+</html>
