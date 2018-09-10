@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .box{
+            width: 300px;
+            height: 500px;
+            border-width: 20px 10px 40px;
+            border-style: solid;
+            border-color: #000;
+            border-radius:10px ;
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            transition: 1s;
+            }
+        .ul{
+            list-style: none;
+            width:250px;
+            margin: 10px auto;
+            background-color:rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 5px;
+          }
+          .ptitle{
+              font: 20px/40px "微软雅黑";
+          }
+          li{
+              padding: 2px;
+              text-indent: 10px;
+          }
+          li:hover{
+              background-color: pink;
+          }
+          .me{
+              background-color: aquamarine;
+          }
+          .red{
+              background: red;
+          }
+
+    </style>
+    <script src="./src/vue.js"></script>
+</head>
+<body>
+    <div class="box">
+        <div id="app">
+        <div class="ul" v-for="item,index in qq">
+            <li class="ptitle"
+                @click="changecurrent(index)"
+            >{{item.title}}</li>
+            <ul :style="isopen(index)">
+                <li v-for="i,idex in item.cons"
+                    @click="changme(idex)"
+                    :class="ischeck(idex)"
+                >{{i}}</li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    
+    <script>
+        document.onselectstart= function(){
+            return false;
+        }
+        let datalist=[
+                    {
+                        title:"我的好友",
+                        cons:["毛豆","狐狸","馒头","粥粥","皮蛋"]
+                    },
+                    {
+                        title:"我的敌人",
+                        cons:["狗蛋","狗剩","傻蛋"]
+                    },
+                    {
+                        title:"黑名单",
+                        cons:["隔壁家的孩子","别人家的喵","老王","比我优秀的"]
+                    }
+            ];
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                currentcard:0,
+                currentperson:null,
+                qq:datalist,
+                
+            },
+            methods:{
+                changecurrent(index,ev){
+                    if(this.currentcard!=index){
+                        this.currentcard=index
+                    }else{
+                        this.currentcard=null;
+                    }
+                    this.currentperson=null;
+                },
+                isopen(index){
+                    return {display:index==this.currentcard?"block":"none"}
+                },
+                changme(idex){
+                    this.currentperson=idex;
+                },
+                ischeck(idex){
+                    return idex==this.currentperson?"red":""
+                }
+            }
+        })
+    </script>
+</body>
+</html>
